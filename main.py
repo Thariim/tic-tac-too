@@ -57,15 +57,14 @@ def new_table(table):
 def table_preparation_win(table_dict):
     '''
     Function to prepare the table for checking the winning condition.
+    Optimized for better readability and performance.
     '''
-    rows = list(table_dict.values())[1:]  
-    rows = copy.deepcopy(rows)
-    lines = []
-    lines.extend(rows)
-    columns = [[row[i] for row in rows] for i in range(len(rows[0]))]
+    rows = [row[:3] for row in list(table_dict.values())[1:]]
+    lines = rows[:]
+    columns = [[row[i] for row in rows] for i in range(3)]
     lines.extend(columns)
-    diagonal = [rows[i][i] for i in range(len(rows))]
-    diagonal_rev = [rows[i][len(rows) - 1 - i] for i in range(len(rows))]
+    diagonal = [rows[i][i] for i in range(3)]
+    diagonal_rev = [rows[i][2 - i] for i in range(3)]
     lines.extend([diagonal, diagonal_rev])
     return lines
 
@@ -95,9 +94,9 @@ def pat(conditions):
     return False
 
 def run():
-    player_count=0
+    player_count = 0
     game_table = table()
-    
+    print(new_table(game_table))  # Print table before user input
     while True:
         input_str = input_correction(user_input(player_count), player_count, game_table)
         split_input = split_string(input_str)
